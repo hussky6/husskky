@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дмитрий Добжанский - Таргетолог</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1C1F23 0%, #175DF5 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Section */
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-photo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #ffffff, #a8d0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #d0e8ff;
+            margin-bottom: 30px;
+        }
+
+        .achievements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .achievement-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(23, 93, 245, 0.3);
+        }
+
+        .achievement-card h3 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #a8d0ff;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #175DF5 0%, #1C1F23 100%);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(23, 93, 245, 0.5);
+            background: linear-gradient(135deg, #1C1F23 0%, #175DF5 100%);
+        }
+
+        /* Section Styles */
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .section-header {
+            padding: 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.3s ease;
+        }
+
+        .section-header:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .section-header h2 {
+            font-size: 2em;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-header .icon {
+            font-size: 1.2em;
+        }
+
+        .arrow {
+            font-size: 1.5em;
+            transition: transform 0.3s ease;
+        }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            padding: 0 30px;
+        }
+
+        .section.active .section-content {
+            max-height: 5000px;
+            padding: 30px;
+        }
+
+        .section.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 15px 40px rgba(23, 93, 245, 0.4);
+        }
+
+        .card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #a8d0ff;
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card ul li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .card ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #175DF5;
+            font-weight: bold;
+        }
+
+        /* Image Cards */
+        .image-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .image-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .image-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(23, 93, 245, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .image-card-content {
+            padding: 20px;
+        }
+
+        .image-card-content h4 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: #a8d0ff;
+        }
+
+        /* Case Study Cards */
+        .case-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .case-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(23, 93, 245, 0.5);
+        }
+
+        .case-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            margin-top: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: inline-block;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            font-size: 1.2em;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(23, 93, 245, 0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .subtitle {
+                font-size: 1.1em;
+            }
+
+            .section-header h2 {
+                font-size: 1.5em;
+            }
+
+            .achievements {
+                grid-template-columns: 1fr;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .image-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animation for page load */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container > * {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <img src="/mnt/user-data/uploads/IMG_3660.HEIC" alt="Дмитрий Добжанский" class="profile-photo">
+            <h1>Дмитрий Добжанский</h1>
+            <p class="subtitle">Специализация – таргетированная реклама в Meta Ads</p>
+            <p style="font-size: 1.1em; max-width: 800px; margin: 0 auto; line-height: 1.8;">
+                Благодаря отсутствию громоздкой структуры классических агентств и тщательному выбору проектов я обеспечиваю своим клиентам действительно прибыльный digital-маркетинг по справедливой цене. Средний срок сотрудничества со мной составляет ~1,5 года – ряд клиентов работают вместе со мной уже более 3 лет.
+            </p>
+            
+            <div class="achievements">
+                <div class="achievement-card">
+                    <h3>5 лет</h3>
+                    <p>В digital-маркетинге</p>
+                </div>
+                <div class="achievement-card">
+                    <h3>$270,000</h3>
+                    <p>Освоено за 2025 год</p>
+                </div>
+                <div class="achievement-card">
+                    <h3>Под ключ</h3>
+                    <p>Рекламный кабинет, сайт, квиз, креативы, аналитика</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a href="#cases" class="btn btn-primary">📊 Посмотреть кейсы</a>
+            <a href="#contact" class="btn btn-primary">💬 Связаться со мной</a>
+        </div>
+
+        <!-- Почему выбирают меня -->
+        <div class="section active">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2><span class="icon">⭐</span> Почему выбирают меня</h2>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>📈 Фокус на ROI</h3>
+                        <p>Оцениваю успех по возврату инвестиций, а не по пустым охватам и кликам.</p>
+                    </div>
+                    <div class="card">
+                        <h3>🔍 Прозрачная работа</h3>
+                        <p>Предоставляю подробные отчёты, даю доступ к рекламным кабинетам – вы всегда видите результаты в реальном времени.</p>
+                    </div>
+                    <div class="card">
+                        <h3>⚡ Быстрый старт</h3>
+                        <p>От брифа до запуска рекламы и получения первых лидов проходит не больше 5–7 дней.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Мои услуги -->
+        <div class="section active">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2><span class="icon">🛠️</span> Мои услуги</h2>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="card" style="margin-bottom: 30px;">
+                    <h3>🌐 Лендинги под ключ</h3>
+                    <p>Разрабатываю эффективные посадочные страницы, готовые принимать трафик и конвертировать посетителей в заявки.</p>
+                    
+                    <div class="image-cards" style="margin-top: 25px;">
+                        <div class="image-card">
+                            <img src="/mnt/user-data/uploads/десктоп.png" alt="Пример лендинга 1">
+                            <div class="image-card-content">
+                                <h4>Пример 1</h4>
+                            </div>
+                        </div>
+                        <div class="image-card">
+                            <img src="/mnt/user-data/uploads/десктоп_2.png" alt="Пример лендинга 2">
+                            <div class="image-card-content">
+                                <h4>Пример 2</h4>
+                            </div>
+                        </div>
+                        <div class="image-card">
+                            <img src="/mnt/user-data/uploads/декстоп_3.png" alt="Пример лендинга 3">
+                            <div class="image-card-content">
+                                <h4>Пример 3</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 30px;">
+                    <h3>📊 Настройка аналитики</h3>
+                    <p>Настраиваю системы аналитики (Google Analytics, Яндекс.Метрика и др.) для отслеживания KPI и прозрачной оценки результатов.</p>
+                </div>
+
+                <div class="card" style="margin-bottom: 30px;">
+                    <h3>🎨 Создание креативов</h3>
+                    <p>Делаю рекламные материалы для кампаний: статичные баннеры, motion-видео. При необходимости готовлю техническое задание на фото и видеосъёмку контента.</p>
+                    
+                    <div class="image-cards" style="margin-top: 25px;">
+                        <div class="image-card">
+                            <img src="/mnt/user-data/uploads/1_1.jpg" alt="Пример креатива 1">
+                            <div class="image-card-content">
+                                <h4>Креатив 1</h4>
+                            </div>
+                        </div>
+                        <div class="image-card">
+                            <img src="/mnt/user-data/uploads/2_2.png" alt="Пример креатива 2">
+                            <div class="image-card-content">
+                                <h4>Креатив 2</h4>
+                            </div>
+                        </div>
+                        <div class="image-card">
+                            <img src="/mnt/user-data/uploads/3_3.png" alt="Пример креатива 3">
+                            <div class="image-card-content">
+                                <h4>Креатив 3</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom: 30px;">
+                    <h3>💰 Работа с любым бюджетом</h3>
+                    <p>Эффективно работаю с рекламными бюджетами любого объёма, обеспечивая максимальную отдачу от вложений.</p>
+                </div>
+
+                <div class="card">
+                    <h3>🎯 Полный цикл под ключ</h3>
+                    <p>Беру на себя весь процесс запуска рекламы: от создания и настройки рекламного кабинета до отправки лидов в вашу CRM-систему.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кейсы -->
+        <div class="section active" id="cases">
+            <div class="section-header" onclick="toggleSection(this)">
+                <h2><span class="icon">💼</span> Кейсы</h2>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="image-cards">
+                    <div class="case-card">
+                        <img src="/mnt/user-data/uploads/кеи_с_недвижка.jpg" alt="Кейс: Недвижимость">
+                        <div class="image-card-content">
+                            <h4>Недвижимость</h4>
+                            <p>ЖК премиум класса на Пхукете</p>
+                        </div>
+                    </div>
+                    <div class="case-card">
+                        <img src="/mnt/user-data/uploads/кеи_с_пдп_недвижка.png" alt="Кейс: Telegram-канал">
+                        <div class="image-card-content">
+                            <h4>Telegram-канал</h4>
+                            <p>Привлечение подписчиков по недвижимости</p>
+                        </div>
+                    </div>
+                    <div class="case-card">
+                        <img src="/mnt/user-data/uploads/кеи_с_о-ш.png" alt="Кейс: Онлайн-школа">
+                        <div class="image-card-content">
+                            <h4>Онлайн-школа</h4>
+                            <p>Школа программирования + нейросети для детей</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer / Контакты -->
+        <footer id="contact">
+            <h2>📞 Контакты</h2>
+            <p style="font-size: 1.2em; margin-bottom: 30px;">Готов обсудить ваш проект</p>
+            <div class="contact-links">
+                <a href="https://t.me/husskky" class="contact-link" target="_blank">
+                    📱 Telegram: @husskky
+                </a>
+                <a href="https://wa.me/77771735385" class="contact-link" target="_blank">
+                    💬 WhatsApp: +7 777 173-5385
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function toggleSection(header) {
+            const section = header.parentElement;
+            section.classList.toggle('active');
+        }
+
+        // Плавная прокрутка к якорям
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Анимация появления элементов при скролле
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .image-card, .case-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
