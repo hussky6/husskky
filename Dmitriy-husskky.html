@@ -62,6 +62,19 @@
             margin-bottom: 30px;
         }
 
+        .header-description {
+            font-size: 1.1em;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .separator {
+            font-size: 1.5em;
+            margin: 20px 0;
+            opacity: 0.5;
+        }
+
         .achievements {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -92,9 +105,6 @@
 
         /* Action Buttons */
         .action-buttons {
-            position: sticky;
-            top: 20px;
-            z-index: 100;
             display: flex;
             justify-content: center;
             gap: 20px;
@@ -292,6 +302,29 @@
             display: block;
         }
 
+        /* More Cases Button */
+        .more-cases-btn {
+            display: block;
+            margin: 30px auto 0;
+            padding: 20px 50px;
+            background: linear-gradient(135deg, #175DF5 0%, #1C1F23 100%);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2em;
+            border-radius: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            text-align: center;
+            width: fit-content;
+        }
+
+        .more-cases-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(23, 93, 245, 0.5);
+            background: linear-gradient(135deg, #1C1F23 0%, #175DF5 100%);
+        }
+
         /* Footer */
         footer {
             text-align: center;
@@ -396,12 +429,14 @@
     <div class="container">
         <!-- Header -->
         <header>
-            <img src="images/profile.heic" alt="Дмитрий Добжанский" class="profile-photo">
+            <img src="images/profile.jpg" alt="Дмитрий Добжанский" class="profile-photo">
             <h1>Дмитрий Добжанский</h1>
-            <p class="subtitle">Специализация – таргетированная реклама в Meta Ads</p>
-            <p style="font-size: 1.1em; max-width: 800px; margin: 0 auto; line-height: 1.8;">
-                Благодаря отсутствию громоздкой структуры классических агентств и тщательному выбору проектов я обеспечиваю своим клиентам действительно прибыльный digital-маркетинг по справедливой цене. Средний срок сотрудничества со мной составляет ~1,5 года – ряд клиентов работают вместе со мной уже более 3 лет.
-            </p>
+            <p class="subtitle">Специализация: таргетированная реклама в Meta Ads</p>
+            <div class="header-description">
+                <p>Благодаря отсутствию громоздкой структуры классических агентств и тщательному выбору проектов я обеспечиваю своим клиентам действительно прибыльный digital-маркетинг по справедливой цене.</p>
+                <div class="separator">↕️</div>
+                <p>Средний срок сотрудничества со мной составляет ~1,5 года – ряд клиентов работают вместе со мной уже более 3 лет.</p>
+            </div>
             
             <div class="achievements">
                 <div class="achievement-card">
@@ -419,10 +454,9 @@
             </div>
         </header>
 
-        <!-- Action Buttons -->
+        <!-- Action Buttons (not sticky anymore) -->
         <div class="action-buttons">
             <a href="#cases" class="btn btn-primary">📊 Посмотреть кейсы</a>
-            <a href="#contact" class="btn btn-primary">💬 Связаться со мной</a>
         </div>
 
         <!-- Почему выбирают меня -->
@@ -555,6 +589,9 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- More Cases Button -->
+                <a href="#" class="more-cases-btn">📂 Посмотреть больше кейсов</a>
             </div>
         </div>
 
