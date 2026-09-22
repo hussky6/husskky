@@ -423,12 +423,14 @@ footer a{color:var(--gold-light)}
   // ===== Качество чтения: отличаем «дочитал» от «пролистал» =====================
   // Событие пикселя ArticleRead ставится не по проценту скролла, а по трем условиям сразу:
   //   1) глубина   - читатель дошел до конца статьи (READ.DEPTH от высоты <article>);
-  //   2) объем     - он задержался минимум на READ.WORDS доле текста. Каждый блок текста
-  //                  (абзац, подзаголовок, подпись) считается прочитанным, когда он пробыл
-  //                  в центральной полосе экрана дольше, чем нужно на его объем при скорости
-  //                  READ.WPM слов в минуту. Секунда такта делится между блоками, которые
-  //                  сейчас на экране, пропорционально их объему: читать два абзаца
-  //                  одновременно нельзя, поэтому большой монитор не ускоряет зачет;
+  //   2) объем     - он задержался минимум на READ.WORDS доле текста. Каждому блоку текста
+  //                  (абзац, подзаголовок, подпись) начисляется время, пока он в центральной
+  //                  полосе экрана; блок зачтен на столько, на сколько это время покрывает
+  //                  норму на его объем при скорости READ.WPM слов в минуту (не больше 100%).
+  //                  Секунда такта делится между блоками, которые сейчас на экране,
+  //                  пропорционально их объему: читать два абзаца одновременно нельзя,
+  //                  поэтому большой монитор не ускоряет зачет, а стоять на одном экране
+  //                  бесполезно - блоки на нем быстро упираются в свои 100%;
   //   3) время     - не меньше READ.ENGAGED_MIN секунд активного чтения. Активное время
   //                  идет, только пока вкладка видима и за последние READ.IDLE_MS было
   //                  действие (скролл, касание, мышь, клавиша).
@@ -456,7 +458,7 @@ footer a{color:var(--gold-light)}
     article.querySelectorAll('h1, h2, p, li, figcaption').forEach(el => {
       const words = (el.textContent || '').trim().split(/\s+/).filter(Boolean).length;
       if (!words) return;
-      const b = { el: el, words: words, need: Math.max(0.5, words / READ.WPM * 60), seen: 0, done: false };
+      const b = { el: el, words: words, need: Math.max(0.5, words / READ.WPM * 60), seen: 0 };
       el.wnBlock = b;
       blocks.push(b);
       totalWords += words;
@@ -523,17 +525,15 @@ footer a{color:var(--gold-light)}
         let weight = 0;
         inView.forEach(b => { weight += b.words; });
         if (weight > 0) {
-          inView.forEach(b => {
-            if (b.done) return;
-            b.seen += step * (b.words / weight);
-            if (b.seen >= b.need) { b.done = true; readWords += b.words; }
-          });
+          inView.forEach(b => { b.seen = Math.min(b.need, b.seen + step * (b.words / weight)); });
+          readWords = blocks.reduce((sum, b) => sum + b.words * (b.seen / b.need), 0);
         }
       }
       evaluate();
     }
     timer = setInterval(tick, READ.TICK);
     window.wnReadState = state;
+    window.wnReadFired = fired;
     return { flush: evaluate, state: state };
   })();
 
